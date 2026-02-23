@@ -1,0 +1,1 @@
+web: cd backend && gunicorn zadibio_backend_project.wsgi
