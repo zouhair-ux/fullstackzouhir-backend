@@ -7,3 +7,5 @@ psycopg2-binary
 whitenoise
 djangorestframework-simplejwt
 dj-database-url
+cloudinary
+django-cloudinary-storage
