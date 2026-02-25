@@ -115,15 +115,8 @@ WSGI_APPLICATION = 'zadibio_backend_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-if not os.environ.get("DATABASE_URL"):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES = {
+
+DATABASES = {
         'default': dj_database_url.parse(
             os.environ.get("DATABASE_URL")
         )
