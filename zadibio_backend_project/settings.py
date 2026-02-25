@@ -37,7 +37,19 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://fullstackzouhir-backend-production-1f8d.up.railway.app"
 ]
+INSTALLED_APPS = [
+  
+    'cloudinary',
+    'cloudinary_storage',
+]
+import cloudinary
 
+cloudinary.config(
+  cloud_name = "root",
+  api_key = "812397641187256",
+  api_secret = "XWWAncQBTw1CAcjAA0GlrcDcPnI"
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Application definition
 
@@ -177,3 +189,4 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 # Pour l'obtenir : Compte Google -> Sécurité -> Validation en deux étapes -> Mots de passe des applications
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+   
