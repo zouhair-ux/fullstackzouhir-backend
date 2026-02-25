@@ -108,4 +108,4 @@ Statut: {order.get_status_display()}
             count=Count('id')
         ).order_by('date')
 
-        return Response(list(orders))
+        return Response(list(orders)) 

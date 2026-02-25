@@ -24,10 +24,15 @@ class ProductSerializer(serializers.ModelSerializer):
             return obj.image.url
         return None
 
-
-class OrderSerializer(serializers.ModelSerializer):
-    product_name = serializers.CharField(source='product.name_fr', read_only=True)
+class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name_fr', read_only=True)
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
-        model = Order
+        model = Product
         fields = '__all__'
+
+    def get_image_url(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None
