@@ -21,7 +21,9 @@ class Product(models.Model):
     origin_ar = models.CharField(max_length=200, blank=True)
     benefits_fr = models.TextField(blank=True)
     benefits_ar = models.TextField(blank=True)
-    image = models.FileField(upload_to='products/')
+    from cloudinary.models import CloudinaryField
+
+    image = CloudinaryField('image')
     weight = models.CharField(max_length=50, blank=True, null=True, help_text="ex: 1kg, 500g, 250ml")
     views = models.IntegerField(default=0)
     is_promo = models.BooleanField(default=False)
