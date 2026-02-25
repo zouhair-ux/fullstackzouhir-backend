@@ -37,11 +37,7 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://fullstackzouhir-backend-production-1f8d.up.railway.app"
 ]
-INSTALLED_APPS = [
-  
-    'cloudinary',
-    'cloudinary_storage',
-]
+
 import cloudinary
 
 cloudinary.config(
@@ -63,7 +59,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'api',
-    
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 REST_FRAMEWORK = {
