@@ -38,13 +38,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://fullstackzouhir-backend-production-1f8d.up.railway.app"
 ]
 
-import cloudinary
-
-cloudinary.config(
-  cloud_name = "root",
-  api_key = "812397641187256",
-  api_secret = "XWWAncQBTw1CAcjAA0GlrcDcPnI"
-)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'root',
+    'API_KEY': '812397641187256',
+    'API_SECRET': 'XWWAncQBTw1CAcjAA0GlrcDcPnI'
+}
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Application definition
@@ -118,7 +116,7 @@ WSGI_APPLICATION = 'zadibio_backend_project.wsgi.application'
 
 if os.environ.get("DATABASE_URL"):
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
     }
 else:
     DATABASES = {
