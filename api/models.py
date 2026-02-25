@@ -1,11 +1,12 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 class Category(models.Model):
     name_fr = models.CharField(max_length=100)
     name_ar = models.CharField(max_length=100)
     description_fr = models.TextField(blank=True)
     description_ar = models.TextField(blank=True)
-    image = models.FileField(upload_to='categories/', blank=True, null=True)
+    image = CloudinaryField('image', blank=True, null=True)
     
     def __str__(self):
         return f"{self.name_fr} ({self.name_ar})"
@@ -21,9 +22,8 @@ class Product(models.Model):
     origin_ar = models.CharField(max_length=200, blank=True)
     benefits_fr = models.TextField(blank=True)
     benefits_ar = models.TextField(blank=True)
-    from cloudinary.models import CloudinaryField
 
-    image = CloudinaryField('image')
+    image = CloudinaryField('image', blank=True, null=True)
     weight = models.CharField(max_length=50, blank=True, null=True, help_text="ex: 1kg, 500g, 250ml")
     views = models.IntegerField(default=0)
     is_promo = models.BooleanField(default=False)
