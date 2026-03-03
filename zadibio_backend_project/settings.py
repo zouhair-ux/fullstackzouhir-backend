@@ -39,7 +39,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'root',
+    'CLOUD_NAME': 'dptu7sydt',
     'API_KEY': '812397641187256',
     'API_SECRET': 'XWWAncQBTw1CAcjAA0GlrcDcPnI'
 }
