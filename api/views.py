@@ -14,7 +14,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['views', 'price', 'created_at']
+    ordering_fields = ['views', 'price']
     ordering = ['-views']  # Default ordering by trending
     
     def get_queryset(self):

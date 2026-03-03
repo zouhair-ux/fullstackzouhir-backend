@@ -10,8 +10,11 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_image(self, obj):
-        if obj.image:
-            return obj.image.url
+        try:
+            if obj.image:
+                return obj.image.url
+        except Exception:
+            pass
         return None
 
 
@@ -24,9 +27,13 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_image(self, obj):
-        if obj.image:
-            return obj.image.url
+        try:
+            if obj.image:
+                return obj.image.url
+        except Exception:
+            pass
         return None
+
 
 class OrderSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name_fr', read_only=True)
