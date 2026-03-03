@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn zadibio_backend_project.wsgi
+web: python manage.py collectstatic --noinput && python manage.py migrate && gunicorn zadibio_backend_project.wsgi
