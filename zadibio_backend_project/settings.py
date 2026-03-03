@@ -38,6 +38,14 @@ CSRF_TRUSTED_ORIGINS = [
     "https://fullstackzouhir-backend-production-1f8d.up.railway.app"
 ]
 
+import cloudinary
+
+cloudinary.config(
+    cloud_name='dptu7sydt',
+    api_key='812397641187256',
+    api_secret='XWWAncQBTw1CAcjAA0GlrcDcPnI'
+)
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dptu7sydt',
     'API_KEY': '812397641187256',
