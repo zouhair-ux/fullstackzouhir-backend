@@ -3,36 +3,29 @@ from .models import Category, Product, Order
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
-
     class Meta:
         model = Category
         fields = '__all__'
 
-    def get_image(self, obj):
-        try:
-            if obj.image:
-                return obj.image.url
-        except Exception:
-            pass
-        return None
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            representation['image'] = instance.image.url
+        return representation
 
 
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name_fr', read_only=True)
-    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = '__all__'
 
-    def get_image(self, obj):
-        try:
-            if obj.image:
-                return obj.image.url
-        except Exception:
-            pass
-        return None
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            representation['image'] = instance.image.url
+        return representation
 
 
 class OrderSerializer(serializers.ModelSerializer):
