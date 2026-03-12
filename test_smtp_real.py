@@ -16,9 +16,10 @@ def test_real_email():
     print(f"Mot de passe: {masked_password}")
 
     try:
+        settings.EMAIL_HOST_PASSWORD = 'wlkohvnvpbbtyoac'
         send_mail(
-            'Test de connexion SMTP',
-            'Ceci est un test pour vérifier si le mot de passe est accepté par Google.',
+            'Test de connexion SMTP - Nouveau Pass',
+            'Ceci est un test avec le nouveau mot de passe d\'application.',
             settings.DEFAULT_FROM_EMAIL,
             ['zouhirzaitoune36@gmail.com'],
             fail_silently=False,
