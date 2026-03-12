@@ -41,12 +41,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         order = serializer.save()
         
-        # Send email notification asynchronously
-        import threading
-        from django.core.mail import send_mail
-        from django.conf import settings
-        
-        def send_email_thread():
+        # Send email notification
+        try:
             subject = f"Nouvelle commande #{order.id} - {order.customer_name}"
             message = f"""
 Une nouvelle commande a été reçue !
@@ -65,20 +61,23 @@ Description des produits:
 Statut: {order.get_status_display()}
 """
             recipient_list = ['zouhirzaitoune36@gmail.com']
-            try:
-                send_mail(
-                    subject, 
-                    message, 
-                    settings.DEFAULT_FROM_EMAIL, 
-                    recipient_list,
-                    fail_silently=False,
-                )
-            except Exception as e:
-                print(f"Erreur lors de l'envoi de l'email: {e}")
-
-        # Start the email thread
-        email_thread = threading.Thread(target=send_email_thread)
-        email_thread.start()
+            from django.core.mail import send_mail
+            from django.conf import settings
+            
+            send_mail(
+                subject, 
+                message, 
+                settings.DEFAULT_FROM_EMAIL, 
+                recipient_list,
+                fail_silently=False,
+            )
+            print(f"Email envoyé avec succès pour la commande #{order.id}")
+        except Exception as e:
+            # Important: Log the error so it can be seen in Railway logs
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"ERREUR CRITIQUE EMAIL (Commande #{order.id}): {str(e)}")
+            print(f"Erreur lors de l'envoi de l'email: {e}")
 
     
     def get_permissions(self):
