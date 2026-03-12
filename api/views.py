@@ -41,43 +41,61 @@ class OrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         order = serializer.save()
         
-        # Send email notification
-        try:
-            subject = f"Nouvelle commande #{order.id} - {order.customer_name}"
-            message = f"""
+        # Send email notification in background to avoid worker timeout
+        import threading
+        from django.core.mail import send_mail
+        from django.conf import settings
+        import logging
+
+        def send_email_thread(order_id, customer_name, phone, city, address, items_description, status_display):
+            try:
+                subject = f"Nouvelle commande #{order_id} - {customer_name}"
+                message = f"""
 Une nouvelle commande a été reçue !
 
 Détails de la commande:
 -----------------------
-ID Commande: {order.id}
-Client: {order.customer_name}
-Téléphone: {order.phone}
-Ville: {order.city}
-Adresse: {order.address}
+ID Commande: {order_id}
+Client: {customer_name}
+Téléphone: {phone}
+Ville: {city}
+Adresse: {address}
 
 Description des produits:
-{order.items_description}
+{items_description}
 
-Statut: {order.get_status_display()}
+Statut: {status_display}
 """
-            recipient_list = ['zouhirzaitoune36@gmail.com']
-            from django.core.mail import send_mail
-            from django.conf import settings
-            
-            send_mail(
-                subject, 
-                message, 
-                settings.DEFAULT_FROM_EMAIL, 
-                recipient_list,
-                fail_silently=False,
+                recipient_list = ['zouhirzaitoune36@gmail.com']
+                
+                send_mail(
+                    subject, 
+                    message, 
+                    settings.DEFAULT_FROM_EMAIL, 
+                    recipient_list,
+                    fail_silently=False,
+                )
+                print(f"DEBUG: Email envoyé avec succès pour la commande #{order_id}")
+            except Exception as e:
+                logger = logging.getLogger(__name__)
+                logger.error(f"ERREUR ENVOI EMAIL (Commande #{order_id}): {str(e)}")
+                print(f"DEBUG: Erreur lors de l'envoi de l'email: {e}")
+
+        # Start background thread
+        thread = threading.Thread(
+            target=send_email_thread, 
+            args=(
+                order.id, 
+                order.customer_name, 
+                order.phone, 
+                order.city, 
+                order.address, 
+                order.items_description, 
+                order.get_status_display()
             )
-            print(f"Email envoyé avec succès pour la commande #{order.id}")
-        except Exception as e:
-            # Important: Log the error so it can be seen in Railway logs
-            import logging
-            logger = logging.getLogger(__name__)
-            logger.error(f"ERREUR CRITIQUE EMAIL (Commande #{order.id}): {str(e)}")
-            print(f"Erreur lors de l'envoi de l'email: {e}")
+        )
+        thread.daemon = True # Ensure thread doesn't block exit
+        thread.start()
 
     
     def get_permissions(self):
