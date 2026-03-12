@@ -40,6 +40,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         order = serializer.save()
+        print(f"COMMANDE CRÉÉE: ID={order.id}, Client={order.customer_name}")
         
         # Send email notification in background to avoid worker timeout
         import threading
@@ -126,3 +127,34 @@ Statut: {status_display}
         ).order_by('date')
 
         return Response(list(orders)) 
+
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny])
+    def test_email(self, request):
+        """Action pour tester l'envoi d'email directement depuis le navigateur"""
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            
+            print(f"Tentative de test email vers {settings.DEFAULT_FROM_EMAIL}")
+            
+            send_mail(
+                'Test de Connexion Zaitouni Bio',
+                'Si vous recevez ce message, la configuration email de votre serveur Railway est correcte !',
+                settings.DEFAULT_FROM_EMAIL,
+                ['zouhirzaitoune36@gmail.com'],
+                fail_silently=False,
+            )
+            return Response({
+                "success": True, 
+                "message": "L'email de test a été envoyé avec succès à zouhirzaitoune36@gmail.com",
+                "from_email": settings.DEFAULT_FROM_EMAIL
+            })
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"ERREUR TEST EMAIL: {str(e)}")
+            return Response({
+                "success": False, 
+                "error": str(e),
+                "tip": "Vérifiez vos variables d'environnement Railway (EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)"
+            }, status=500)
