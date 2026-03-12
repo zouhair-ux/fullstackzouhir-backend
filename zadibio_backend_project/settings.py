@@ -197,4 +197,5 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 EMAIL_TIMEOUT = 10
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'zouhirzaitoune36@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'wlkohvnvpbbtyoac')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
