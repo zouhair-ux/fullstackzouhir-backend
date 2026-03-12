@@ -158,4 +158,4 @@ Statut: {status_display}
                 "success": False, 
                 "error": str(e),
                 "tip": "Vérifiez vos variables d'environnement Railway (EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)"
-            }, status=500)
+            })

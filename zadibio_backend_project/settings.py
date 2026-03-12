@@ -31,11 +31,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [
-    "fullstackzouhir-backend-production-1f8d.up.railway.app",
-]
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    "https://fullstackzouhir-backend-production-1f8d.up.railway.app"
+    "https://fullstackzouhir-backend-production-1f8d.up.railway.app",
+    "https://fullstackzouhir-backend-production-8fdd.up.railway.app"
 ]
 
 import cloudinary
