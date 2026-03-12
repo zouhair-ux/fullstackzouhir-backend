@@ -131,6 +131,7 @@ Statut: {status_display}
     @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny])
     def test_email(self, request):
         """Action pour tester l'envoi d'email directement depuis le navigateur"""
+        from django.http import JsonResponse
         try:
             from django.core.mail import send_mail
             from django.conf import settings
@@ -144,7 +145,7 @@ Statut: {status_display}
                 ['zouhirzaitoune36@gmail.com'],
                 fail_silently=False,
             )
-            return Response({
+            return JsonResponse({
                 "success": True, 
                 "message": "L'email de test a été envoyé avec succès à zouhirzaitoune36@gmail.com",
                 "from_email": settings.DEFAULT_FROM_EMAIL
@@ -153,7 +154,7 @@ Statut: {status_display}
             import logging
             logger = logging.getLogger(__name__)
             logger.error(f"ERREUR TEST EMAIL: {str(e)}")
-            return Response({
+            return JsonResponse({
                 "success": False, 
                 "error": str(e),
                 "tip": "Vérifiez vos variables d'environnement Railway (EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)"
